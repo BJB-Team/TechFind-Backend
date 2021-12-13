@@ -7,4 +7,6 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   accepts_nested_attributes_for :seeker  
+
+  
 end
