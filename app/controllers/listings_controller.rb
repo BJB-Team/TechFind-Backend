@@ -1,12 +1,20 @@
 class ListingsController < ApplicationController
+  before_action :authenticate_user, except: [:index, :show]
   
   def index 
-
+    @listings = Listing.all
   end 
   
   def create 
+    
+    @listing = current_user.listings.create(listing_params)
 
-  end
+    if @listing.errors.any?
+        render json: @listing.errors.full_messages, status: :unprocessable_entity
+    else
+        render json: @listing, status: 201
+    end
+  end 
 
   def show 
 
@@ -18,6 +26,10 @@ class ListingsController < ApplicationController
 
   def destory 
 
+  end   
+
+  def listing_params
+    params.require(:listing).permit(:title, :description, :price, :job_type_id, :job_level_id)
   end
 
 end
