@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   scope '/auth' do 
     post '/sign_up', to: 'users#create'
     post '/sign_in', to: 'users#sign_in'
+    get 'profile', to: 'users#show'
   end
   scope '/api' do 
     get '/jobs', to: 'listings#index'
