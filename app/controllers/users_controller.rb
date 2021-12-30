@@ -21,6 +21,11 @@ class UsersController < ApplicationController
       end
   end
 
+  def show
+    @current_user = User.find_by_username(current_user.username)
+    render json: @current_user
+  end
+
   def user_params
       params.require(:user).permit(:username, :email, :password, :seeker, :password_confirmation, seeker_attributes: [:first_name, :last_name, :phone, :resume])
   end
