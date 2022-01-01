@@ -1,5 +1,6 @@
 class ListingsController < ApplicationController
   before_action :authenticate_user, except: [:index, :show]
+  before_action :set_listing, only: [ :show, :update, :edit, :destroy ]
   
   def index 
     @listings = Listing.all
@@ -18,7 +19,7 @@ class ListingsController < ApplicationController
   end 
 
   def show 
-
+    render json: @listing
   end
 
   def update 
@@ -28,6 +29,12 @@ class ListingsController < ApplicationController
   def destory 
 
   end   
+
+  private 
+
+  def set_listing
+    @listing = Listing.find(params[:id])
+  end
 
   def listing_params
     params.require(:listing).permit(:title, :description, :price, :job_type_id, :job_level_id)
