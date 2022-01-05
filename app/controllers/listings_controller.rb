@@ -27,7 +27,8 @@ class ListingsController < ApplicationController
   end
 
   def destory 
-
+    @listing.delete
+    render json: {listing: "listing deleted"}, status: 204
   end   
 
   private 
