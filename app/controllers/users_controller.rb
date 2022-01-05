@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def user_params
 
-    if (params[:user][:account_seeker] === "true")
+    if (params[:user][:account_seeker])
       
       params.require(:user).permit(:username, :email, :password, :account_seeker, :password_confirmation, seeker_attributes: [:first_name, :last_name, :phone, :resume])
     else
