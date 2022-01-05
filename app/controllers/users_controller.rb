@@ -1,13 +1,14 @@
 class UsersController < ApplicationController
   def create
-    @user = User.create(user_params)
-    if @user.save
-        auth_token = Knock::AuthToken.new payload: {sub: @user.id}
-        render json: {username: @user.username, jwt: auth_token.token}, status: 201
-    else
-        
-        render json: @user.errors, status: :unprocessable_entity
-    end
+      @user = User.create(user_params)
+      if @user.save
+          auth_token = Knock::AuthToken.new payload: {sub: @user.id}
+          render json: {username: @user.username, jwt: auth_token.token}, status: 201
+      else
+          
+          render json: @user.errors, status: :unprocessable_entity
+      end
+  
   end
 
   def sign_in
@@ -27,6 +28,13 @@ class UsersController < ApplicationController
   end
 
   def user_params
-      params.require(:user).permit(:username, :email, :password, :seeker, :password_confirmation, seeker_attributes: [:first_name, :last_name, :phone, :resume])
+
+    if (params[:user][:account_seeker] === "true")
+      
+      params.require(:user).permit(:username, :email, :password, :account_seeker, :password_confirmation, seeker_attributes: [:first_name, :last_name, :phone, :resume])
+    else
+     
+      params.require(:user).permit(:username, :email, :password, :account_seeker, :password_confirmation, company_attributes: [:company_name, :website, :phone, :description])
+    end
   end
 end

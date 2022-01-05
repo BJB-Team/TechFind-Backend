@@ -8,13 +8,15 @@ Rails.application.routes.draw do
   end
   scope '/api' do 
     get '/jobs', to: 'listings#index'
-    get '/jobs/:id', to: 'listings#show'
     post '/jobs', to: 'listings#create'
-  
-    
+    get '/jobs/:id', to: 'listings#show'
+    put  '/jobs/:id', to: 'listing#update'
+    delete  '/jobs/:id', to: 'listing#destroy'
+     
     scope '/job' do
       get 'level', to: 'job_levels#index' 
       get 'type', to: 'job_types#index' 
+
     end
   end
 end
