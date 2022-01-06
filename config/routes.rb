@@ -10,8 +10,8 @@ Rails.application.routes.draw do
     get '/jobs', to: 'listings#index'
     post '/jobs', to: 'listings#create'
     get '/jobs/:id', to: 'listings#show'
-    put  '/jobs/:id', to: 'listing#update'
-    delete  '/jobs/:id', to: 'listing#destroy'
+    put  '/jobs/:id', to: 'listings#update'
+    delete  '/jobs/:id', to: 'listings#destroy'
      
     scope '/job' do
       get 'level', to: 'job_levels#index' 
