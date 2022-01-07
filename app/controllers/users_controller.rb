@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def create
+    puts(params[:user][:seeker_attributes][])
       @user = User.create(user_params)
       if @user.save
           auth_token = Knock::AuthToken.new payload: {sub: @user.id}
