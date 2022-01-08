@@ -12,4 +12,5 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :seeker  
   
   accepts_nested_attributes_for :company  
+  
 end
