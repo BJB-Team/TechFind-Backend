@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   def create
-    puts(params[:user][:seeker_attributes][])
       @user = User.create(user_params)
       if @user.save
           auth_token = Knock::AuthToken.new payload: {sub: @user.id}
@@ -30,7 +29,7 @@ class UsersController < ApplicationController
 
   def user_params
 
-    if (params[:user][:account_seeker])
+    if (params[:account_seeker])
       
       params.require(:user).permit(:username, :email, :password, :account_seeker, :password_confirmation, seeker_attributes: [:first_name, :last_name, :phone, :resume])
     else
