@@ -31,6 +31,10 @@ class ListingsController < ApplicationController
     render json: {listing: "listing deleted"}, status: 204
   end   
 
+  def applications
+
+  end
+
   private 
 
   def set_listing
