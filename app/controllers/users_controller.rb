@@ -24,7 +24,13 @@ class UsersController < ApplicationController
 
   def show
     @current_user = User.find_by_username(current_user.username)
-    render json: @current_user
+    if @current_user.account_seeker == "true"
+      @profile = Seeker.find_by_user_id(current_user.id)
+    else
+      @profile = Company.find_by_user_id(current_user.id)
+    end
+    
+    render json: {user: @current_user, profile: @profile}
   end
 
   def user_params
