@@ -6,7 +6,7 @@ class UsersController < ApplicationController
           render json: {username: @user.username, jwt: auth_token.token, id: @user.id}, status: 201
       else
           
-          render json: @user.errors, status: :unprocessable_entity
+          render json: {test: @user.errors}
       end
   
   end
@@ -34,7 +34,6 @@ class UsersController < ApplicationController
 
   def user_params
     if (params[:user][:account_seeker] == "true")
-      puts "here"
       params.require(:user).permit(:username, :email, :password, :account_seeker, :password_confirmation, seeker_attributes: [:first_name, :last_name, :phone, :resume])
     else
      
