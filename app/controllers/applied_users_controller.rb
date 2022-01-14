@@ -50,5 +50,29 @@ class AppliedUsersController < ApplicationController
     render json: my_listings
   end
 
+
+  def download
+    s = Seeker.find_by_id(params[:id])
+    bucket_name = 'techfind-dev'
+    object_key = s.resume.key.to_s
+    local_path = "./#{s.resume.filename}"
+    region = 'ap-southeast-2'
+    
+    s3_client = Aws::S3::Client.new(region: region)
+
+    # resume = s3_client.generate_presigned_url(
+    #   :put_object
+    #   bucket: bucket_name,
+    #   key: object_key
+    # )
+    # puts resume
+    # render json: resume['body'].read()
+    s3_client = Aws::S3::Client.new
+
+    @download = Aws::S3::Object.new(
+        key: object_key, bucket_name: bucket_name, client: s3_client).presigned_url(:get, expires_in: 60 * 60
+    )
+    render json: @download
+  end
   
 end
