@@ -44,7 +44,6 @@ class UsersController < ApplicationController
         render json: @user, status: 201
       end
     else
-      puts"here"
       render json: @user.errors, status: 400
     end
   end

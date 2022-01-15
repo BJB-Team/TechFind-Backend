@@ -23,11 +23,12 @@ class ListingsController < ApplicationController
   end
 
   def update 
-
+    @listing.update(listing_params)
+    render json: @listing, status: 204
   end
 
   def destroy 
-    @listing.delete
+    @listing.destroy
     render json: {listing: "listing deleted"}, status: 204
   end   
 
