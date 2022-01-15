@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     post '/sign_up', to: 'users#create'
     post '/sign_in', to: 'users#sign_in'
     get 'profile', to: 'users#show'
+    put 'profile/:id', to: 'users#update'
+    delete 'profile/:id', to: 'users#destroy'
   end
   scope '/api' do 
     get '/jobs', to: 'listings#index'

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  
   def create
       @user = User.create(user_params)
       if @user.save
@@ -24,19 +25,49 @@ class UsersController < ApplicationController
   def show
     @current_user = User.find_by_username(current_user.username)
     if @current_user.account_seeker == "true"
-      @profile = Seeker.find_by_user_id(current_user.id)
+      @seeker_attributes = Seeker.find_by_user_id(current_user.id)
+      render json:  {user: @current_user, seeker_attributes: @seeker_attributes}
     else
-      @profile = Company.find_by_user_id(current_user.id)
+      @company_attributes = Company.find_by_user_id(current_user.id)
+      render json:  {user: @current_user, company_attributes: @company_attributes}
     end
-    
-    render json: {user: @current_user, profile: @profile}
+  end
+
+  def update
+    @user = User.find_by_id(params[:id])
+
+    if @user.authenticate(params[:password])
+      @user.update(user_params)
+      if @user.errors.any?
+        render json: @user.errors
+      else
+        render json: @user, status: 201
+      end
+    else
+      puts"here"
+      render json: @user.errors, status: 400
+    end
+  end
+
+  def destroy
+     @user = User.find_by_id(params[:id])
+     if @user.account_seeker == "true"
+      @seeker = Seeker.find_by_user_id(params[:id])
+      @seeker.destroy
+     else
+      @company = Company.find_by_user_id(params[:id])
+      @company.destroy
+     end
+      @user.destroy
+     render json: {user: "Message deleted"}, status: 204
   end
 
   def user_params
+    
     if (params[:user][:account_seeker] == "true")
       params.require(:user).permit(:username, :email, :password, :account_seeker, :password_confirmation, seeker_attributes: [:first_name, :last_name, :phone, :resume])
     else
-     
+      
       params.require(:user).permit(:username, :email, :password, :account_seeker, :password_confirmation, company_attributes: [:company_name, :website, :phone, :description])
     end
   end
