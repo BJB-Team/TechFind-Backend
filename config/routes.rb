@@ -18,10 +18,12 @@ Rails.application.routes.draw do
     post '/apply', to: 'applied_users#apply' 
     get '/applied', to: 'applied_users#index' 
     get '/my-application', to: 'applied_users#applied' 
-     
+    get '/download:id', to: 'applied_users#download'
+
     scope '/job' do
       get 'level', to: 'job_levels#index' 
-      get 'type', to: 'job_types#index' 
+      get 'type', to: 'job_types#index'
+      
 
     end
   end
