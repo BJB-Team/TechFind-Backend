@@ -35,8 +35,8 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find_by_id(params[:id])
-
-    if @user.authenticate(params[:password])
+    if @user.authenticate(params[:user][:password])
+      
       @user.update(user_params)
       if @user.errors.any?
         render json: @user.errors
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
         render json: @user, status: 201
       end
     else
-      render json: @user.errors, status: 400
+      render json: "error", status: 400
     end
   end
 
