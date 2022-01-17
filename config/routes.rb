@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     post '/apply', to: 'applied_users#apply' 
     get '/applied', to: 'applied_users#index' 
     get '/my-application', to: 'applied_users#applied' 
-    get '/download:id', to: 'applied_users#download'
+    get '/download/:id', to: 'applied_users#download'
     delete  '/application/:id', to: 'applied_users#destroy'
 
     scope '/job' do
