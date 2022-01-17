@@ -24,11 +24,14 @@ class AppliedUsersController < ApplicationController
     @listing.each do |n|
       @applications.each do |a|
         if n.user_id == current_user.id and a.listing_id == n.id
+          puts Seeker.find_by_user_id(a.applied_user)
           my_listings << n
           my_applications << Seeker.find_by_user_id(a.applied_user)
+          puts Seeker.find_by_user_id(a.applied_user)
         end
       end
     end
+    
 
     render json: {my_listings: my_listings, my_applications: my_applications}
   end
@@ -54,7 +57,6 @@ class AppliedUsersController < ApplicationController
     s = Seeker.find_by_id(params[:id])
     bucket_name = 'techfind-dev'
     object_key = s.resume.key.to_s
-    local_path = "./#{s.resume.filename}"
     region = 'ap-southeast-2'
     
     s3_client = Aws::S3::Client.new(region: region)

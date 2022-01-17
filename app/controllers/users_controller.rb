@@ -51,13 +51,19 @@ class UsersController < ApplicationController
   def destroy
      @user = User.find_by_id(params[:id])
      if @user.account_seeker == "true"
+      @applications = []
+      Application.all.each do |application|
+        @applications = application.user_id(params[:id])
+      end
+      @application.destroy
       @seeker = Seeker.find_by_user_id(params[:id])
       @seeker.destroy
      else
       @company = Company.find_by_user_id(params[:id])
       @company.destroy
      end
-      @user.destroy
+
+    @user.destroy
      render json: {user: "Message deleted"}, status: 204
   end
 
