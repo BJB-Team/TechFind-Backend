@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'localhost:8000','127.0.0.1:3000'
+    origins 'localhost:8000','127.0.0.1:3000', 'http://techfind.software.com','https://upbeat-dubinsky-90fa31.netlify.app/'
 
     resource '*',
       headers: :any,
