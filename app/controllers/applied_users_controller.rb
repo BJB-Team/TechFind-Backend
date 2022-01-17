@@ -1,8 +1,7 @@
 class AppliedUsersController < ApplicationController
-  before_action :authenticate_user, only: [:index]
+  before_action :authenticate_user, only: [:index, :destroy]
+
   def apply
-    puts "test"
-    puts params
     @application = Application.new
     @application.applied_user = current_user.id
     @application.listing_user_id = params[:user_id]
@@ -60,19 +59,22 @@ class AppliedUsersController < ApplicationController
     
     s3_client = Aws::S3::Client.new(region: region)
 
-    # resume = s3_client.generate_presigned_url(
-    #   :put_object
-    #   bucket: bucket_name,
-    #   key: object_key
-    # )
-    # puts resume
-    # render json: resume['body'].read()
-    s3_client = Aws::S3::Client.new
-
     @download = Aws::S3::Object.new(
         key: object_key, bucket_name: bucket_name, client: s3_client).presigned_url(:get, expires_in: 60 * 60
     )
     render json: @download
   end
-  
+
+  def destroy
+    
+    @applications = Application.all
+    @applications.each do |a|
+      if a.applied_user == current_user.id and a.listing_id.to_s == (params[:id].to_s)
+        a.destroy
+      end 
+    end
+    
+    render json: {application: "application deleted"}, status: 204
+  end
+
 end
