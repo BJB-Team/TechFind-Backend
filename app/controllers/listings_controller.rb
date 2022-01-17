@@ -8,9 +8,7 @@ class ListingsController < ApplicationController
   end 
   
   def create 
-    
     @listing = current_user.listings.create(listing_params)
-
     if @listing.errors.any?
         render json: @listing.errors.full_messages, status: :unprocessable_entity
     else
@@ -19,7 +17,12 @@ class ListingsController < ApplicationController
   end 
 
   def show 
-    render json: @listing
+    @user = User.find_by_id(@listing.user_id)
+    @company = Company.find_by_user_id(@user.id)
+    puts "here"
+    puts @company
+    render json: {company: @company, listing: @listing}
+
   end
 
   def update 
