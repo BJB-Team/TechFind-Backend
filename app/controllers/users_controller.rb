@@ -2,11 +2,11 @@ class UsersController < ApplicationController
   
   def create
       @user = User.create(user_params)
+      puts @user
       if @user.save
           auth_token = Knock::AuthToken.new payload: {sub: @user.id}
           render json: {username: @user.username, jwt: auth_token.token, id: @user.id}, status: 201
       else
-          
           render json: {test: @user.errors}
       end
   
